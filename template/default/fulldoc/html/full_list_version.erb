@@ -1,0 +1,33 @@
+<script type="text/javascript">
+if (match = window.location.pathname.match(/^(.+?)(?:branch|tag)/)) {
+  var project_root_url = match[1];
+
+  var jsonData = $.getJSON(project_root_url + 'sitemap.json', function(json) {
+    var branches = json.branch ? Object.keys(json.branch) : [];
+    var tags = json.tag ? Object.keys(json.tag) : [];
+    var list = $('ul.version#full_list');
+
+    var createItem = function(version, index, type) {
+      var url = project_root_url + type + '/' + version + '/' + index;
+
+      list.append(
+        '<li><div class="item"><span class="object_link">' +
+        '<a href="' + url + '" title="' + version + ' (' + type + ')">' +
+        version + '</a> <small>' + type + '</small></span></div></li>');
+    }
+
+    for (var i = 0; i < branches.length; i++) {
+      createItem(branches[i], json.branch[branches[i]], 'branch');
+    }
+
+    for (var i = 0; i < tags.length; i++) {
+      createItem(tags[i], json.tag[tags[i]], 'tag');
+    }
+
+    highlight();
+    $(fullListSearch);
+    $(linkList);
+    $(collapse);
+  });
+}
+</script>
