@@ -3,12 +3,6 @@
 
 require 'yard'
 
-module YARD
-  module Rideliner
-    def self.template_path
-      File.expand_path('../../template', File.dirname(__FILE__))
-    end
-  end
-end
-
-YARD::Templates::Engine.register_template_path(YARD::Rideliner.template_path)
+YARD::Templates::Engine.register_template_path(
+  File.expand_path('../../template', __dir__)
+)

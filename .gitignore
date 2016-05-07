@@ -1,6 +1,7 @@
 Gemfile.lock
 
+/.bundle/
+/vendor/bundle/
+
 *.gem
 /pkg/
-
-.rubocop-*
