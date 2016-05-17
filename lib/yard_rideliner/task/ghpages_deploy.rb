@@ -26,7 +26,7 @@ if ENV['TRAVIS'] && ENV['DOCS']
       require 'ghpages_deploy/rake_task'
 
       desc 'Deploy documentation to Github Pages'
-      GithubPagesGithubPages::DeployTask.new(deploy: [:yard]) do |ghpages|
+      GithubPages::DeployTask.new(deploy: [:yard]) do |ghpages|
         ghpages.remote = 'website'
         ghpages.repo = 'https://github.com/rideliner/rideliner.github.io.git'
         ghpages.source = '_yardoc'
@@ -55,9 +55,9 @@ if ENV['TRAVIS'] && ENV['DOCS']
             dest_and_msg['branch', branch]
           end
 
-        ghpages.json_sitemap(
+        ghpages.generate_json_sitemap(
           directory: doc_root,
-          whitelist: ['**/_index.html', '**/index_html'],
+          whitelist: ['**/_index.html', '**/index.html'],
           output: "#{project_root}/documentation.json"
         )
       end
