@@ -11,15 +11,17 @@ require 'yard/rake/yardoc_task'
 require 'rake/clean'
 
 YARD::Rake::YardocTask.new(:yard) do |t|
-  t.files = ['lib/**/*.rb', '-', 'doc/*.md', 'LICENSE.md']
-  t.options = [
-    '--charset utf-8', '--readme README.md',
-    '--markup markdown', '--markup-provider kramdown',
-    '--output-dir _yardoc',
-    '--protected', '--private',
-    "--default-return ''",
-    '--plugin yard_rideliner'
-  ]
+  t.files = ['lib/**/*.rb', '-', 'doc/*.md']
+  t.files << 'LICENSE.md' if File.exist?('LICENSE.md')
+
+  t.options =
+    %w(
+      --charset utf-8 --output-dir _yardoc
+      --markup markdown --markup-provider kramdown
+      --protected --private --hide-void-return
+      --plugin yard_rideliner
+    )
+  t.options += %w(--readme README.md) if File.exist?('README.md')
 end
 
 CLEAN.include '.yardoc'
