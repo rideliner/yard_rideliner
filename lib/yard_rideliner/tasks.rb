@@ -7,3 +7,4 @@
 
 require 'yard_rideliner/task/ghpages_deploy'
 require 'yard_rideliner/task/yard'
+require 'yard_rideliner/task/yardstick'
