@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'kramdown'
   spec.add_dependency 'yard'
+  spec.add_dependency 'yardstick'
   spec.add_dependency 'ghpages_deploy'
 
   spec.add_dependency 'rideliner'
