@@ -20,8 +20,8 @@ def current_gemspec
   Gem::Specification.load(spec)
 end
 
-if ENV['TRAVIS'] && ENV['DOCS']
-  namespace :yard do
+namespace :yard do
+  if ENV['TRAVIS'] && ENV['DOCS']
     if ENV['TRAVIS_PULL_REQUEST'] == 'false'
       require 'ghpages_deploy/rake_task'
 
@@ -65,6 +65,10 @@ if ENV['TRAVIS'] && ENV['DOCS']
       task :deploy do
         puts 'Documentation not generated for pull requests.'
       end
+    end
+  else
+    task :deploy do
+      abort 'Documentation is only deployable from Travis with DOCS env set.'
     end
   end
 end
