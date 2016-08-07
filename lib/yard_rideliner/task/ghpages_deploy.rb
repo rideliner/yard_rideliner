@@ -33,7 +33,7 @@ namespace :yard do
         ghpages.repo = REPOSITORY
         ghpages.source = '_yardoc'
 
-        project = PROJECT_NAME || current_gemspec.name
+        project = defined?(PROJECT_NAME) && PROJECT_NAME || current_gemspec.name
         project_root = "project/#{project}"
         doc_root = "#{project_root}/doc"
 
