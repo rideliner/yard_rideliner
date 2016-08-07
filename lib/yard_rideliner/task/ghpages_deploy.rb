@@ -20,6 +20,8 @@ def current_gemspec
   Gem::Specification.load(spec)
 end
 
+REPOSITORY = 'https://github.com/rideliner/rideliner.github.io.git'
+
 namespace :yard do
   if ENV['TRAVIS'] && ENV['DOCS']
     if ENV['TRAVIS_PULL_REQUEST'] == 'false'
@@ -28,32 +30,23 @@ namespace :yard do
       desc 'Deploy documentation to Github Pages'
       GithubPages::DeployTask.new(deploy: [:yard]) do |ghpages|
         ghpages.remote = 'website'
-        ghpages.repo = 'https://github.com/rideliner/rideliner.github.io.git'
+        ghpages.repo = REPOSITORY
         ghpages.source = '_yardoc'
-
-        tag = ENV['TRAVIS_TAG']
-        branch = ENV['TRAVIS_BRANCH']
 
         project = PROJECT_NAME || current_gemspec.name
         project_root = "project/#{project}"
         doc_root = "#{project_root}/doc"
 
-        dest_and_msg =
-          lambda do |type, loc|
-            [
-              "#{doc_root}/#{type}/#{loc}",
-              "Deploying documentation for #{project}, #{type} #{loc}."
-            ]
-          end
+        tag = ENV['TRAVIS_TAG']
+        branch = ENV['TRAVIS_BRANCH']
 
         abort 'No tag or branch specified' if tag.empty? && branch.empty?
 
-        ghpages.destination, ghpages.message =
-          if !tag.empty?
-            dest_and_msg['tag', tag]
-          elsif !branch.empty?
-            dest_and_msg['branch', branch]
-          end
+        type, loc = tag.empty? ? ['branch', branch] : ['tag', tag]
+
+        ghpages.destination = "#{doc_root}/#{type}/#{loc}"
+        ghpages.message =
+          "Deploying documentation for #{project}, #{type} '#{loc}'."
 
         ghpages.generate_json_sitemap(
           directory: doc_root,
