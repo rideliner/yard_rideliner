@@ -19,7 +19,6 @@ YARD::Rake::YardocTask.new(:yard) do |t|
       --charset utf-8 --output-dir _yardoc
       --markup markdown --markup-provider kramdown
       --protected --private --hide-void-return
-      --plugin yard_rideliner
     )
   t.options += %w(--readme README.md) if File.exist?('README.md')
 end
